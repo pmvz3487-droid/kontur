@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Фитнес-клуб «Контур»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Контур, на главную">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><rect x="2" y="2" width="26" height="26" rx="9" stroke="currentColor" stroke-width="2.5"/><path d="M8 19c3-8 6-8 7-4s4 4 7-4" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/></svg>
+      Контур
+    </a>
+    <nav aria-label="Основное меню">
+      <a href="#schedule">Расписание</a>
+      <a href="#plans">Абонементы</a>
+      <a href="#join">Пробная тренировка</a>
+    </nav>
+    <a class="btn" href="#join">Записаться</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Тренируйтесь в своём ритме</h1>
+      <p>Групповые занятия, тренажёрный зал и бассейн в одном клубе. Первая тренировка бесплатно, тренер подберёт нагрузку под вашу цель.</p>
+      <div class="actions">
+        <a class="btn" href="#join">Записаться на пробное</a>
+        <a class="btn ghost" href="#schedule">Смотреть расписание</a>
+      </div>
+    </div>
+    <aside class="board" aria-label="Занятия сегодня">
+      <h3 id="boardTitle">Сегодня в клубе</h3>
+      <ul id="board"></ul>
+    </aside>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <h2>Расписание групповых занятий</h2>
+    <p class="lead">Выберите день. Запись открыта за 7 дней, отмена — не позднее чем за 2 часа.</p>
+    <div class="tabs" role="tablist" id="tabs" aria-label="День недели"></div>
+    <div class="rows" id="rows" role="tabpanel"></div>
+  </div>
+</section>
+
+<section id="plans" style="background:var(--surface)">
+  <div class="wrap">
+    <h2>Абонементы</h2>
+    <p class="lead">Без скрытых платежей. Заморозка до 30 дней в год на любом абонементе.</p>
+    <div class="plans">
+      <article class="plan">
+        <h3>Утро</h3>
+        <div class="price">2 900 ₽<small> / мес</small></div>
+        <ul><li>Посещение с 7:00 до 16:00</li><li>Тренажёрный зал</li><li>Групповые занятия</li></ul>
+        <a class="btn ghost" href="#join">Выбрать</a>
+      </article>
+      <article class="plan main">
+        <h3>Безлимит</h3>
+        <div class="price">4 500 ₽<small> / мес</small></div>
+        <ul><li>Посещение в любое время</li><li>Зал, бассейн и сауна</li><li>Все групповые занятия</li><li>Персональный план от тренера</li></ul>
+        <a class="btn" href="#join">Выбрать</a>
+      </article>
+      <article class="plan">
+        <h3>Вдвоём</h3>
+        <div class="price">7 900 ₽<small> / мес</small></div>
+        <ul><li>Два безлимитных абонемента</li><li>Зал, бассейн и сауна</li><li>Можно оформить на друга или партнёра</li></ul>
+        <a class="btn ghost" href="#join">Выбрать</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="join" class="join">
+  <div class="wrap">
+    <div>
+      <h2>Первая тренировка бесплатно</h2>
+      <p class="lead">Оставьте контакты, и администратор позвонит в течение рабочего дня, чтобы выбрать время. С собой нужны только сменная обувь и полотенце.</p>
+    </div>
+    <div>
+      <form id="form" novalidate>
+        <label>Имя<input id="fName" type="text" autocomplete="name" placeholder="Как к вам обращаться"></label>
+        <label>Телефон<input id="fPhone" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"></label>
+        <label>Ваша цель
+          <select id="fGoal">
+            <option>Похудеть</option><option>Набрать форму</option><option>Укрепить спину и суставы</option><option>Готовиться к соревнованиям</option><option>Просто двигаться больше</option>
+          </select>
+        </label>
+        <p class="err" id="err" role="alert"></p>
+        <button class="btn" type="submit">Записаться на пробное</button>
+      </form>
+      <div class="done" id="done" hidden></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Фитнес-клуб «Контур»</span>
+    <span>Москва, ул. Примерная, 12 · ежедневно 7:00–23:00</span>
+    <span>+7 (495) 000-00-00 · hello@kontur.example</span>
+  </div>
+</footer>
+
+<script>
+const C={
+  yoga:["Йога","Анна Серова","Для всех уровней"],
+  pil:["Пилатес","Анна Серова","Начальный уровень"],
+  hiit:["Интервальная тренировка","Максим Орлов","Средний уровень"],
+  box:["Бокс для начинающих","Дмитрий Козлов","Начальный уровень"],
+  str:["Силовая тренировка","Игорь Власов","Средний уровень"],
+  cyc:["Сайкл","Мария Лебедева","Для всех уровней"],
+  str2:["Растяжка","Мария Лебедева","Для всех уровней"]
+};
+const D=[
+ ["Пн",[["07:30","yoga"],["12:00","pil"],["18:30","hiit"],["20:00","str"]]],
+ ["Вт",[["08:00","cyc"],["18:00","box"],["19:30","str2"]]],
+ ["Ср",[["07:30","yoga"],["12:00","str"],["18:30","hiit"],["20:00","cyc"]]],
+ ["Чт",[["08:00","pil"],["18:00","box"],["19:30","str"]]],
+ ["Пт",[["07:30","hiit"],["12:00","yoga"],["18:30","cyc"],["20:00","str2"]]],
+ ["Сб",[["10:00","hiit"],["11:30","yoga"],["13:00","box"]]],
+ ["Вс",[["11:00","pil"],["12:30","str2"]]]
+];
+const spots=(d,i)=>3+((d*5+i*7)%9);
+const word=n=>n%10===1&&n%100!==11?"место":(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?"места":"мест";
+const today=(new Date().getDay()+6)%7;
+
+function renderBoard(){
+  document.getElementById("board").innerHTML=D[today][1].slice(0,4).map(([t,k],i)=>{
+    const s=spots(today,i);
+    return `<li><span class="t">${t}</span><span><span class="n">${C[k][0]}</span><br><span class="w">${C[k][1]} · ${s} ${word(s)}</span></span></li>`;
+  }).join("");
+}
+function renderDay(d){
+  document.getElementById("rows").innerHTML=D[d][1].map(([t,k],i)=>{
+    const s=spots(d,i);
+    return `<div class="row"><span class="t">${t}</span><span class="n">${C[k][0]}</span><span class="m">${C[k][1]} · ${C[k][2]}</span><span class="spots${s<6?" low":""}">${s} ${word(s)}</span></div>`;
+  }).join("");
+  document.querySelectorAll(".tab").forEach((b,i)=>b.setAttribute("aria-selected",i===d));
+}
+const tabs=document.getElementById("tabs");
+tabs.innerHTML=D.map((x,i)=>`<button class="tab" role="tab" data-d="${i}">${x[0]}</button>`).join("");
+tabs.addEventListener("click",e=>{const b=e.target.closest(".tab");if(b)renderDay(+b.dataset.d)});
+renderBoard();renderDay(today);
+
+document.getElementById("form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=fName.value.trim(),phone=fPhone.value.trim(),err=document.getElementById("err");
+  if(!name){err.textContent="Укажите имя, чтобы администратор знал, как к вам обращаться.";fName.focus();return}
+  if(phone.replace(/\D/g,"").length<10){err.textContent="Введите телефон полностью, например +7 495 000-00-00.";fPhone.focus();return}
+  err.textContent="";
+  const done=document.getElementById("done");
+  done.innerHTML=`<b>Заявка отправлена</b>${name.replace(/[<>&]/g,"")}, мы позвоним вам на ${phone.replace(/[<>&]/g,"")} в течение рабочего дня и подберём время для пробной тренировки.`;
+  done.hidden=false;e.target.hidden=true;
+});
+</script>
+</body>
+</html>
