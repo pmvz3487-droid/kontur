@@ -7,9 +7,30 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css" id="theme">
+<script>try{var d=document.documentElement,g=function(k){return localStorage.getItem(k)},t={print:"css/print.css",low:"css/lowvision.css"};if(t[g("mode")])document.getElementById("theme").href=t[g("mode")];d.dataset.mode=g("mode")||"normal";d.dataset.size=g("size")||"1";d.dataset.scheme=g("scheme")||"bw"}catch(e){}</script>
 </head>
 <body>
+
+<div class="toolbar" role="region" aria-label="Версия сайта">
+  <div class="wrap">
+    <span>Версия сайта:</span>
+    <button type="button" data-mode="normal" aria-pressed="true">Обычная</button>
+    <button type="button" data-mode="low" aria-pressed="false">Для слабовидящих</button>
+    <button type="button" data-mode="print" aria-pressed="false">Для печати</button>
+    <span id="lowTools" hidden>
+      Размер шрифта:
+      <button type="button" data-size="1" aria-pressed="true">A</button>
+      <button type="button" data-size="2" aria-pressed="false">A+</button>
+      <button type="button" data-size="3" aria-pressed="false">A++</button>
+      Цвета:
+      <button type="button" data-scheme="bw" aria-pressed="true">Чёрное на белом</button>
+      <button type="button" data-scheme="wb" aria-pressed="false">Белое на чёрном</button>
+      <button type="button" data-scheme="bl" aria-pressed="false">Синее на голубом</button>
+    </span>
+    <button type="button" id="doPrint" hidden>Распечатать</button>
+  </div>
+</div>
 
 <header>
   <div class="wrap">
@@ -47,9 +68,17 @@
 <section id="schedule">
   <div class="wrap">
     <h2>Расписание групповых занятий</h2>
-    <p class="lead">Выберите день. Запись открыта за 7 дней, отмена — не позднее чем за 2 часа.</p>
-    <div class="tabs" role="tablist" id="tabs" aria-label="День недели"></div>
-    <div class="rows" id="rows" role="tabpanel"></div>
+    <p class="lead">Отметьте нужные параметры. Сочетания, при которых занятий нет, становятся недоступными, поэтому пустого результата не будет.</p>
+    <div class="layout">
+      <aside id="filters" aria-label="Фильтры расписания">
+        <div id="groups"></div>
+        <button type="button" id="reset" class="btn ghost">Сбросить фильтры</button>
+      </aside>
+      <div class="results">
+        <p id="summary" class="summary" aria-live="polite"></p>
+        <div class="tablewrap" id="elements"></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -112,57 +141,6 @@
   </div>
 </footer>
 
-<script>
-const C={
-  yoga:["Йога","Анна Серова","Для всех уровней"],
-  pil:["Пилатес","Анна Серова","Начальный уровень"],
-  hiit:["Интервальная тренировка","Максим Орлов","Средний уровень"],
-  box:["Бокс для начинающих","Дмитрий Козлов","Начальный уровень"],
-  str:["Силовая тренировка","Игорь Власов","Средний уровень"],
-  cyc:["Сайкл","Мария Лебедева","Для всех уровней"],
-  str2:["Растяжка","Мария Лебедева","Для всех уровней"]
-};
-const D=[
- ["Пн",[["07:30","yoga"],["12:00","pil"],["18:30","hiit"],["20:00","str"]]],
- ["Вт",[["08:00","cyc"],["18:00","box"],["19:30","str2"]]],
- ["Ср",[["07:30","yoga"],["12:00","str"],["18:30","hiit"],["20:00","cyc"]]],
- ["Чт",[["08:00","pil"],["18:00","box"],["19:30","str"]]],
- ["Пт",[["07:30","hiit"],["12:00","yoga"],["18:30","cyc"],["20:00","str2"]]],
- ["Сб",[["10:00","hiit"],["11:30","yoga"],["13:00","box"]]],
- ["Вс",[["11:00","pil"],["12:30","str2"]]]
-];
-const spots=(d,i)=>3+((d*5+i*7)%9);
-const word=n=>n%10===1&&n%100!==11?"место":(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?"места":"мест";
-const today=(new Date().getDay()+6)%7;
-
-function renderBoard(){
-  document.getElementById("board").innerHTML=D[today][1].slice(0,4).map(([t,k],i)=>{
-    const s=spots(today,i);
-    return `<li><span class="t">${t}</span><span><span class="n">${C[k][0]}</span><br><span class="w">${C[k][1]} · ${s} ${word(s)}</span></span></li>`;
-  }).join("");
-}
-function renderDay(d){
-  document.getElementById("rows").innerHTML=D[d][1].map(([t,k],i)=>{
-    const s=spots(d,i);
-    return `<div class="row"><span class="t">${t}</span><span class="n">${C[k][0]}</span><span class="m">${C[k][1]} · ${C[k][2]}</span><span class="spots${s<6?" low":""}">${s} ${word(s)}</span></div>`;
-  }).join("");
-  document.querySelectorAll(".tab").forEach((b,i)=>b.setAttribute("aria-selected",i===d));
-}
-const tabs=document.getElementById("tabs");
-tabs.innerHTML=D.map((x,i)=>`<button class="tab" role="tab" data-d="${i}">${x[0]}</button>`).join("");
-tabs.addEventListener("click",e=>{const b=e.target.closest(".tab");if(b)renderDay(+b.dataset.d)});
-renderBoard();renderDay(today);
-
-document.getElementById("form").addEventListener("submit",e=>{
-  e.preventDefault();
-  const name=fName.value.trim(),phone=fPhone.value.trim(),err=document.getElementById("err");
-  if(!name){err.textContent="Укажите имя, чтобы администратор знал, как к вам обращаться.";fName.focus();return}
-  if(phone.replace(/\D/g,"").length<10){err.textContent="Введите телефон полностью, например +7 495 000-00-00.";fPhone.focus();return}
-  err.textContent="";
-  const done=document.getElementById("done");
-  done.innerHTML=`<b>Заявка отправлена</b>${name.replace(/[<>&]/g,"")}, мы позвоним вам на ${phone.replace(/[<>&]/g,"")} в течение рабочего дня и подберём время для пробной тренировки.`;
-  done.hidden=false;e.target.hidden=true;
-});
-</script>
+<script src="js/app.js"></script>
 </body>
 </html>

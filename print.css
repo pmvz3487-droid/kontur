@@ -1,0 +1,31 @@
+/* Версия для печати: остаётся только значимая информация */
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0 auto;max-width:900px;padding:16px;background:#fff;color:#000;font:12pt/1.45 Georgia,'Times New Roman',serif}
+h1,h2,h3{font-family:inherit;margin:18px 0 8px}
+a{color:#000;text-decoration:none}
+.wrap{padding:0;max-width:none}
+section{padding:8px 0}
+.toolbar{border:1px solid #000;padding:8px;margin-bottom:16px;font:14px Arial,sans-serif}
+.toolbar button{font:inherit;border:1px solid #000;background:#fff;color:#000;padding:4px 10px;margin:2px 6px 2px 0;cursor:pointer}
+.toolbar button[aria-pressed="true"]{background:#000;color:#fff}
+header{border-bottom:2px solid #000;padding-bottom:8px}
+header .wrap{display:block;padding:0}
+.logo{font:700 20pt Georgia,serif}
+.logo svg,header nav,header .btn,.hero,#filters,#join,.lead,.btn,footer nav{display:none}
+.layout{display:block}
+.summary{font-weight:700;margin:0 0 10px}
+table{width:100%;border-collapse:collapse;font-size:11pt}
+caption{text-align:left;font-weight:700;margin-bottom:6px}
+th,td{border:1px solid #000;padding:4px 8px;text-align:left}
+th{background:#eee}
+tr{page-break-inside:avoid}
+#plans{background:#fff!important}
+.plans{display:block}
+.plan{border:1px solid #000;padding:8px 12px;margin-bottom:8px;page-break-inside:avoid}
+.plan ul{margin:6px 0;padding-left:18px}
+.price{font-weight:700;margin:4px 0}
+footer{border-top:2px solid #000;margin-top:16px;padding-top:8px;font-size:11pt}
+footer .wrap span{display:block}
+@page{margin:15mm}
+@media print{.toolbar{display:none}body{max-width:none;padding:0}}
